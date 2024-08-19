@@ -19,9 +19,9 @@ I used the Linux environment on Windows through WSL (Windows Subsystem for Linux
 
 This will be the first file encountered in the repository: a txt script that outlines, step by step, the code used to process the raw, unfiltered data. Based on a series of commands executed in WSL.
 
-- cat command is used to join several files, in this case we have a series of .fastq files that are separate and to process and align them it is better to join them.
-- fastqc quality control checks on the combined FASTQ files for read 1 and read 2, generating quality reports. All quality reports were checked to ensure they were of good quality and a cleaning was also done with trimmomatic but it is an optional step that in the end was not done in the final result.
-- bwa mem aligns paired-end reads to the reference genome and outputs in SAM format.
-- samtools view converts the SAM file to BAM format, and samtools sort sorts the BAM file.
-- samtools flagstat provides summary statistics of the BAM file.
-- samtools stats generates detailed alignment statistics.
+- **cat** command is used to join several files, in this case we have a series of .fastq files that are separate and to process and align them it is better to join them.
+- **fastqc** quality control checks on the combined FASTQ files for read 1 and read 2, generating quality reports. All quality reports were checked to ensure they were of good quality and a cleaning was also done with trimmomatic but it is an optional step that in the end was not done in the final result.
+- **bwa mem** aligns paired-end reads to the reference genome and outputs in SAM format.
+- **samtools view** converts the SAM file to BAM format, and samtools sort sorts the BAM file.
+- **samtools flagstat** provides summary statistics of the BAM file.
+- **samtools stats** generates detailed alignment statistics.
