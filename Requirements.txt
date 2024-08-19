@@ -1,1 +1,34 @@
+Requirements for the Analysis
+
+
+The RNA-Seq analysis requires the following tools to be installed in your WSL (Windows Subsystem for Linux) Version 0.2.1 environment:
+
+BWA (Burrows-Wheeler Alignment Tool): For aligning sequencing reads to the reference genome. Version: 0.7.17-r1188. 
+FastQC: For quality control of sequencing data. Version 0.12.0
+Samtools: For manipulating high-throughput sequencing data. samtools 1.13.
+
+For this project, we use R version 4.4.1 with RStudio. The following R libraries are included:
+
+ggplot2: For advanced data visualization.
+magrittr: Provides the pipe operator (%>%) for cleaner code.
+DESeq2: For differential expression analysis in RNA-seq data.
+gridExtra: Arranges multiple plots on a single page.
+vsn: For variance stabilization in high-throughput data.
+ggfortify: Extends ggplot2 for visualizing statistical results and models.
+openxlsx: Handles reading and writing Excel files without Java.
+
+> packageVersion("ggplot2")
+[1] ‘3.5.1’
+> packageVersion("magrittr")
+[1] ‘2.0.3’
+> packageVersion("DESeq2")
+[1] ‘1.44.0’
+> packageVersion("gridExtra")
+[1] ‘2.3’
+> packageVersion("vsn")
+[1] ‘3.72.0’
+> packageVersion("ggfortify")
+[1] ‘0.4.17’
+> packageVersion("openxlsx")
+[1] ‘4.2.6.1’
 
