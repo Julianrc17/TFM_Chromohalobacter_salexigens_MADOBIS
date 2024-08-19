@@ -25,3 +25,5 @@ This will be the first file encountered in the repository: a txt script that out
 - **samtools view** converts the SAM file to BAM format, and samtools sort sorts the BAM file.
 - **samtools flagstat** provides summary statistics of the BAM file.
 - **samtools stats** generates detailed alignment statistics.
+
+**Program required**: **Bwa mem** (Burrows-Wheeler Alignment Tool), **FastQC**, **Samtools**. 
