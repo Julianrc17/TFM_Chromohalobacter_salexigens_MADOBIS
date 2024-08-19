@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Complete Code for RNA-Seq
 
 # Analysis Data
@@ -31,13 +33,16 @@ samtools stats aligned_reads_sorted.bam > alignment_stats_Wt06_full.txt
 # Wt25I
 cat Wt25_CCGTCC_L008_R1_001.fastq Wt25_CCGTCC_L008_R1_002.fastq Wt25_CCGTCC_L008_R1_003.fastq Wt25_CCGTCC_L008_R1_004.fastq Wt25_CCGTCC_L008_R1_005.fastq > combinedWt25_R1.fastq
 cat Wt25_CCGTCC_L008_R2_001.fastq Wt25_CCGTCC_L008_R2_002.fastq Wt25_CCGTCC_L008_R2_003.fastq Wt25_CCGTCC_L008_R2_004.fastq Wt25_CCGTCC_L008_R2_005.fastq > combinedWt25_R2.fastq
+../../FastQC./fastqc/ combinedWt25_R1.fastq combinedWt25_R2.fastq
 bwa mem ../../Genoma_referencia_gtf/GCF_000055785.1_ASM5578v1_genomic.fna combinedWt25_R1.fastq combinedWt25_R2.fastq > aligned_reads_Wt25.sam
 samtools view -Sb aligned_reads_Wt25.sam | samtools sort -o aligned_reads_Wt25_sorted.bam
 samtools flagstat aligned_reads_Wt25_sorted.bam > aligned_stats_Wt25.txt
 samtools stats aligned_reads_Wt25_sorted.bam > alignment_stats_Wt25_full.txt
 
 # RpoS06A
-
+cat RpoS06A_ATCACG_L008_R1_001.fastq RpoS06A_ATCACG_L008_R1_002.fastq RpoS06A_ATCACG_L008_R1_003.fastq > combinedRpos06A_R1.fastq
+cat RpoS06A_ATCACG_L008_R2_001.fastq RpoS06A_ATCACG_L008_R2_002.fastq RpoS06A_ATCACG_L008_R2_003.fastq > combinedRpos06A_R2.fastq
+../../FastQC./fastqc/ combinedRpoS06A_R1.fastq combinedRpoS06A_R2.fastq
 bwa mem ../../Genoma_referencia_gtf/GCF_000055785.1_ASM5578v1_genomic.fna combinedRpoS06A_R1.fastq combinedRpoS06A_R2.fastq > aligned_reads_RpoS06A.sam
 samtools view -Sb aligned_reads_RpoS06A.sam | samtools sort -o aligned_reads_RpoS06A_sorted.bam
 samtools flagstat aligned_reads_RpoS06A_sorted.bam > aligned_stats_RpoS06A.txt
@@ -79,6 +84,8 @@ samtools stats aligned_reads_RpoS25C_sorted.bam > alignment_stats_RpoS25C_full.t
 
 # SOLID SAMPLES
 
+# These samples were already .bam. There is no need to pre-process them.
+
 # Wt06A
 
 samtools flagstat mergeBam_06A_Dr.bam > report_Wt06Abam.txt
@@ -106,7 +113,7 @@ samtools stats mergeBam_25C_Dr.bam > alignment_stats_25C_full.txt
 
 # FeatureCounts for All Samples
 
-featureCounts -a ../../Genoma_referencia_gtf/genomic.gtf -o counts_totales_v2.txt -t gene -g gene_id -p -T 12 ../../../bam\ solid/mergeBam_06A_Dr.bam ../../../bam\ solid/mergeBam_06B_Dr.bam ../../../bam\ solid/mergeBam_06C_Dr.bam ../../../bam\ solid/mergeBam_25A_Dr.bam ../../../bam\ solid/mergeBam_25B_Dr.bam ../../../bam\ solid/mergeBam_25C_Dr.bam bwa/aligned_reads_Wt25_sorted.bam ../Sample_Wt06/bwa/aligned_reads_Wt06_sorted.bam ../../RpoS/Sample_RpoS06A/bwa/aligned_reads_RpoS06A_sorted.bam ../../RpoS/Sample_RpoS06B/bwa/aligned_reads_RpoS06B_sorted.bam ../../RpoS/Sample_RpoS06C/bwa/aligned_reads_RpoS06C_sorted.bam ../../RpoS/Sample_RpoS25A/bwa/aligned_reads_RpoS25A_sorted.bam ../../RpoS/Sample_RpoS25B/bwa/aligned_reads_RpoS25B_sorted.bam ../../RpoS/Sample_RpoS25C/aligned_reads_RpoS25C_sorted.bam
+featureCounts -a ../../Genoma_referencia_gtf/genomic.gtf -o counts_totales.txt -t gene -g gene_id -p -T 12 ../../../bam\ solid/mergeBam_06A_Dr.bam ../../../bam\ solid/mergeBam_06B_Dr.bam ../../../bam\ solid/mergeBam_06C_Dr.bam ../../../bam\ solid/mergeBam_25A_Dr.bam ../../../bam\ solid/mergeBam_25B_Dr.bam ../../../bam\ solid/mergeBam_25C_Dr.bam bwa/aligned_reads_Wt25_sorted.bam ../Sample_Wt06/bwa/aligned_reads_Wt06_sorted.bam ../../RpoS/Sample_RpoS06A/bwa/aligned_reads_RpoS06A_sorted.bam ../../RpoS/Sample_RpoS06B/bwa/aligned_reads_RpoS06B_sorted.bam ../../RpoS/Sample_RpoS06C/bwa/aligned_reads_RpoS06C_sorted.bam ../../RpoS/Sample_RpoS25A/bwa/aligned_reads_RpoS25A_sorted.bam ../../RpoS/Sample_RpoS25B/bwa/aligned_reads_RpoS25B_sorted.bam ../../RpoS/Sample_RpoS25C/aligned_reads_RpoS25C_sorted.bam
 
 
 
