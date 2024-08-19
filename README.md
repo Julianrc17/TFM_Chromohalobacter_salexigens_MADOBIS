@@ -19,3 +19,7 @@ I used the Linux environment on Windows through WSL (Windows Subsystem for Linux
 
 This will be the first file encountered in the repository: a txt script that outlines, step by step, the code used to process the raw, unfiltered data. Based on a series of commands executed in WSL.
 
+- bwa mem aligns paired-end reads to the reference genome and outputs in SAM format.
+- samtools view converts the SAM file to BAM format, and samtools sort sorts the BAM file.
+- samtools flagstat provides summary statistics of the BAM file.
+- samtools stats generates detailed alignment statistics.
