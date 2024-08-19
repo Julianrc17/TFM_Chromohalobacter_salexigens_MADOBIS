@@ -20,13 +20,17 @@ bwa index GCF_000055785.1_ASM5578v1_genomic.fna
 
 # Wt06I
 
+cat Wt06_ATGTCA_L008_R1_001.fastq Wt06_ATGTCA_L008_R1_002.fastq Wt06_ATGTCA_L008_R1_003.fastq Wt06_ATGTCA_L008_R1_004.fastq > combinedWt06_R1.fastq
+cat Wt06_ATGTCA_L008_R2_001.fastq Wt06_ATGTCA_L008_R2_002.fastq Wt06_ATGTCA_L008_R2_003.fastq Wt06_ATGTCA_L008_R2_004.fastq > combinedWt06_R2.fastq
+../../FastQC./fastqc/ combinedWt06_R1.fastq combinedWt06_R2.fastq
 bwa mem ../../Genoma_referencia_gtf/GCF_000055785.1_ASM5578v1_genomic.fna combinedWt06_R1.fastq combinedWt06_R2.fastq > aligned_reads_Wt06.sam
 samtools view -Sb aligned_reads_Wt06.sam | samtools sort -o aligned_reads_Wt06_sorted.bam
 samtools flagstat aligned_reads_Wt06_sorted.bam > aligned_stats_Wt06.txt
 samtools stats aligned_reads_sorted.bam > alignment_stats_Wt06_full.txt
 
 # Wt25I
-
+cat Wt25_CCGTCC_L008_R1_001.fastq Wt25_CCGTCC_L008_R1_002.fastq Wt25_CCGTCC_L008_R1_003.fastq Wt25_CCGTCC_L008_R1_004.fastq Wt25_CCGTCC_L008_R1_005.fastq > combinedWt25_R1.fastq
+cat Wt25_CCGTCC_L008_R2_001.fastq Wt25_CCGTCC_L008_R2_002.fastq Wt25_CCGTCC_L008_R2_003.fastq Wt25_CCGTCC_L008_R2_004.fastq Wt25_CCGTCC_L008_R2_005.fastq > combinedWt25_R2.fastq
 bwa mem ../../Genoma_referencia_gtf/GCF_000055785.1_ASM5578v1_genomic.fna combinedWt25_R1.fastq combinedWt25_R2.fastq > aligned_reads_Wt25.sam
 samtools view -Sb aligned_reads_Wt25.sam | samtools sort -o aligned_reads_Wt25_sorted.bam
 samtools flagstat aligned_reads_Wt25_sorted.bam > aligned_stats_Wt25.txt
