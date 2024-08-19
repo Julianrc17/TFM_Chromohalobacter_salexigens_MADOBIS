@@ -18,6 +18,7 @@
 # ILLUMINA SAMPLES
 
 # Index of reference genome
+
 bwa index GCF_000055785.1_ASM5578v1_genomic.fna
 
 # Wt06I
@@ -31,6 +32,7 @@ samtools flagstat aligned_reads_Wt06_sorted.bam > aligned_stats_Wt06.txt
 samtools stats aligned_reads_sorted.bam > alignment_stats_Wt06_full.txt
 
 # Wt25I
+
 cat Wt25_CCGTCC_L008_R1_001.fastq Wt25_CCGTCC_L008_R1_002.fastq Wt25_CCGTCC_L008_R1_003.fastq Wt25_CCGTCC_L008_R1_004.fastq Wt25_CCGTCC_L008_R1_005.fastq > combinedWt25_R1.fastq
 cat Wt25_CCGTCC_L008_R2_001.fastq Wt25_CCGTCC_L008_R2_002.fastq Wt25_CCGTCC_L008_R2_003.fastq Wt25_CCGTCC_L008_R2_004.fastq Wt25_CCGTCC_L008_R2_005.fastq > combinedWt25_R2.fastq
 ../../FastQC./fastqc/ combinedWt25_R1.fastq combinedWt25_R2.fastq
@@ -40,6 +42,7 @@ samtools flagstat aligned_reads_Wt25_sorted.bam > aligned_stats_Wt25.txt
 samtools stats aligned_reads_Wt25_sorted.bam > alignment_stats_Wt25_full.txt
 
 # RpoS06A
+
 cat RpoS06A_ATCACG_L008_R1_001.fastq RpoS06A_ATCACG_L008_R1_002.fastq RpoS06A_ATCACG_L008_R1_003.fastq > combinedRpos06A_R1.fastq
 cat RpoS06A_ATCACG_L008_R2_001.fastq RpoS06A_ATCACG_L008_R2_002.fastq RpoS06A_ATCACG_L008_R2_003.fastq > combinedRpos06A_R2.fastq
 ../../FastQC./fastqc/ combinedRpoS06A_R1.fastq combinedRpoS06A_R2.fastq
@@ -50,12 +53,19 @@ samtools stats aligned_reads_RpoS06A_sorted.bam > alignment_stats_RpoS06A_full.t
 
 # RpoS06B
 
+cat RpoS06B_CGATGT_L008_R1_001.fastq RpoS06B_CGATGT_L008_R1_002.fastq RpoS06B_CGATGT_L008_R1_003.fastq RpoS06B_CGATGT_L008_R1_004.fastq RpoS06B_CGATGT_L008_R1_005.fastq > combinedRpoS06B_R1.fastq
+cat RpoS06B_CGATGT_L008_R2_001.fastq RpoS06B_CGATGT_L008_R2_002.fastq RpoS06B_CGATGT_L008_R2_003.fastq RpoS06B_CGATGT_L008_R2_004.fastq RpoS06B_CGATGT_L008_R2_005.fastq > combinedRpoS06B_R2.fastq
+../../FastQC./fastqc/ combinedRpoS06B_R1.fastq combinedRpoS06B_R2.fastq
 bwa mem ../../Genoma_referencia_gtf/GCF_000055785.1_ASM5578v1_genomic.fna combinedRpoS06B_R1.fastq combinedRpoS06B_R2.fastq > aligned_reads_RpoS06B.sam
 samtools view -Sb aligned_reads_RpoS06B.sam | samtools sort -o aligned_reads_RpoS06B_sorted.bam
 samtools flagstat aligned_reads_RpoS06B_sorted.bam > aligned_stats_RpoS06B.txt
 samtools stats aligned_reads_RpoS06B_sorted.bam > alignment_stats_RpoS06B_full.txt
 
 # RpoS06C
+
+cat RpoS06C_TTAGGC_L008_R1_001.fastq RpoS06C_TTAGGC_L008_R1_002.fastq RpoS06C_TTAGGC_L008_R1_003.fastq RpoS06C_TTAGGC_L008_R1_004.fastq > combinedRpoS06C_R1.fastq
+cat RpoS06C_TTAGGC_L008_R2_001.fastq RpoS06C_TTAGGC_L008_R2_002.fastq RpoS06C_TTAGGC_L008_R2_003.fastq RpoS06C_TTAGGC_L008_R2_004.fastq > combinedRpoS06C_R2.fastq
+../../FastQC./fastqc/ combinedRpoS06C_R1.fastq combinedRpoS06C_R2.fastq
 bwa mem ../../Genoma_referencia_gtf/GCF_000055785.1_ASM5578v1_genomic.fna combinedRpoS06C_R1.fastq combinedRpoS06C_R2.fastq > aligned_reads_RpoS06C.sam
 samtools view -Sb aligned_reads_RpoS06C.sam | samtools sort -o aligned_reads_RpoS06C_sorted.bam
 samtools flagstat aligned_reads_RpoS06C_sorted.bam > aligned_stats_RpoS06C.txt
@@ -63,6 +73,9 @@ samtools stats aligned_reads_RpoS06C_sorted.bam > alignment_stats_RpoS06C_full.t
 
 # RpoS25A
 
+cat RpoS25A_TGACCA_L008_R1_001.fastq RpoS25A_TGACCA_L008_R1_002.fastq RpoS25A_TGACCA_L008_R1_003.fastq RpoS25A_TGACCA_L008_R1_004.fastq RpoS25A_TGACCA_L008_R1_005.fastq > combinedRpoS25A_R1.fastq
+cat RpoS25A_TGACCA_L008_R2_001.fastq RpoS25A_TGACCA_L008_R2_002.fastq RpoS25A_TGACCA_L008_R2_003.fastq RpoS25A_TGACCA_L008_R2_004.fastq RpoS25A_TGACCA_L008_R2_005.fastq > combinedRpoS25A_R2.fastq
+../../FastQC./fastqc/ combinedRpoS25A_R1.fastq combinedRpoS25A_R2.fastq
 bwa mem ../../Genoma_referencia_gtf/GCF_000055785.1_ASM5578v1_genomic.fna combinedRpoS25A_R1.fastq combinedRpoS25A_R2.fastq > aligned_reads_RpoS25A.sam
 samtools view -Sb aligned_reads_RpoS25A.sam | samtools sort -o aligned_reads_RpoS25A_sorted.bam
 samtools flagstat aligned_reads_RpoS25A_sorted.bam > aligned_stats_RpoS25A.txt
@@ -70,6 +83,9 @@ samtools stats aligned_reads_RpoS25A_sorted.bam > alignment_stats_RpoS25A_full.t
 
 # RpoS25B
 
+cat RpoS25B_ACAGTG_L008_R1_001.fastq RpoS25B_ACAGTG_L008_R1_002.fastq RpoS25B_ACAGTG_L008_R1_003.fastq RpoS25B_ACAGTG_L008_R1_004.fastq > combinedRpoS25B_R1.fastq
+cat RpoS25B_ACAGTG_L008_R2_001.fastq RpoS25B_ACAGTG_L008_R2_002.fastq RpoS25B_ACAGTG_L008_R2_003.fastq RpoS25B_ACAGTG_L008_R2_004.fastq > combinedRpoS25B_R2.fastq
+../../FastQC./fastqc/ combinedRpoS25B_R1.fastq combinedRpoS25B_R2.fastq
 bwa mem ../../Genoma_referencia_gtf/GCF_000055785.1_ASM5578v1_genomic.fna combinedRpoS25B_R1.fastq combinedRpoS25B_R2.fastq > aligned_reads_RpoS25B.sam
 samtools view -Sb aligned_reads_RpoS25B.sam | samtools sort -o aligned_reads_RpoS25B_sorted.bam
 samtools flagstat aligned_reads_RpoS25B_sorted.bam > aligned_stats_RpoS25B.txt
@@ -77,6 +93,9 @@ samtools stats aligned_reads_RpoS25B_sorted.bam > alignment_stats_RpoS25B_full.t
  
 # RpoS25C
 
+cat RpoS25C_GCCAAT_L008_R1_001.fastq RpoS25C_GCCAAT_L008_R1_002.fastq RpoS25C_GCCAAT_L008_R1_003.fastq RpoS25C_GCCAAT_L008_R1_004.fastq > combinedRpoS25_R1.fastq
+cat RpoS25C_GCCAAT_L008_R2_001.fastq RpoS25C_GCCAAT_L008_R2_002.fastq RpoS25C_GCCAAT_L008_R2_003.fastq RpoS25C_GCCAAT_L008_R2_004.fastq > combinedRpoS25C_R2.fastq
+../../FastQC./fastqc/ combinedRpoS25C_R1.fastq combinedRpoS25C_R2.fastq
 bwa mem ../../Genoma_referencia_gtf/GCF_000055785.1_ASM5578v1_genomic.fna combinedRpoS25C_R1.fastq combinedRpoS25C_R2.fastq > aligned_reads_RpoS25C.sam
 samtools view -Sb aligned_reads_RpoS25C.sam | samtools sort -o aligned_reads_RpoS25C_sorted.bam
 samtools flagstat aligned_reads_RpoS25C_sorted.bam > aligned_stats_RpoS25C.txt
