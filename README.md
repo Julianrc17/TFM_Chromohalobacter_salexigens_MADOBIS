@@ -15,7 +15,7 @@ I used the Linux environment on Windows through WSL (Windows Subsystem for Linux
 - The samples obtained using the Illumina sequencing method are: Wt06I, Wt25I, RpoS06A, RpoS06B, RpoS06C, RpoS25A, RpoS25B, and RpoS25C. These files are in .fastq format.
 
 
-### RNA-Seq_RawData_Code.txt
+### RNA-Seq_RawData_Code.txt (Bash WSL)
 
 This will be the first file encountered in the repository: a txt script that outlines, step by step, the code used to process the raw, unfiltered data. Based on a series of commands executed in WSL.
 
