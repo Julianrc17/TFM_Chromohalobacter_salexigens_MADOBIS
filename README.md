@@ -27,3 +27,8 @@ This will be the first file encountered in the repository: a txt script that out
 - **samtools stats** generates detailed alignment statistics.
 
 **Program required**: **Bwa mem** (Burrows-Wheeler Alignment Tool), **FastQC**, **Samtools**. 
+
+### R Analysis 
+
+On the other hand, we have the analysis done in R. Which deals with everything from the processing and normalization of our count data obtained with FeatureCounts to the generation of FoldChange tables and relevance graphs in our study.
+
