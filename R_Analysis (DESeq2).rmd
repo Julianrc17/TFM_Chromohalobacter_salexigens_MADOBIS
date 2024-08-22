@@ -10,8 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 Libraries
 
 ```{r}
-library(ggplot2) # for making plots
-library(magrittr) # for "pipe"-like coding in R
+library(ggplot2) 
+library(magrittr) 
 library(DESeq2)
 library(magrittr)
 library(gridExtra)
@@ -28,7 +28,6 @@ orig_names <- names(readcounts) # keep a back-up copy of the original names
 colnames(readcounts)
 new_column_names <- c("Geneid", "Chr", "Start", "End", "Strand", "Length", "Wt06A", "Wt06B", "Wt06C", "Wt25A", "Wt25B", "Wt25C", 
                       "Wt25I", "Wt06I", "RpoS06A", "RpoS06B", "RpoS06C", "RpoS25A", "RpoS25B", "RpoS25C")
-# Asignar los nuevos nombres de columnas al data frame
 colnames(readcounts) <- new_column_names
 ```
 
@@ -46,22 +45,15 @@ head(readcounts)
 ColData
 
 ```{r}
-# Crear el objeto sample_info con la columna de condición
 condition <- gsub("([A-Za-z]+)([0-9]+)([A-Za-z]*)", "\\1\\2", new_column_names[-(1:6)])
-condition <- gsub("I$", "", condition)  # Quitar el sufijo 'I' si está presente
+condition <- gsub("I$", "", condition) 
 
 row.names = names(readcounts)
 
-# Crear el data frame de información de muestra
 sample_info <- DataFrame(condition = condition, row.names = new_column_names[-(1:6)])
 
-# Verificar la estructura del data frame para confirmar los cambios
 str(sample_info)
-
-# Mostrar el data frame sample_info
 sample_info
-
-head(condition,14)
 ```
 
 ```{r}
@@ -120,9 +112,7 @@ ylab = "library sizes", xlab = "size factors", cex = .6 )
 FOLD CHANGE EXCEL
 
 ```{r}
-library(DESeq2)
-library(openxlsx)
-library(ggplot2)
+
 
 # Definir el diseño experimental
 design(DESeq.ds) <- ~ condition
