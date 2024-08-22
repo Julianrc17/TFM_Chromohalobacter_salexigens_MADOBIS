@@ -15,7 +15,6 @@ library(magrittr)
 library(DESeq2)
 library(magrittr)
 library(gridExtra)
-library(vsn)
 library(ggfortify)
 library(openxlsx)
 ```
