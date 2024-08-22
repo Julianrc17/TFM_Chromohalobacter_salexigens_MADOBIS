@@ -31,8 +31,7 @@ new_column_names <- c("Geneid", "Chr", "Start", "End", "Strand", "Length", "Wt06
 colnames(readcounts) <- new_column_names
 ```
 
-DESeq 2 Object
-
+**DESeq 2 Object**
 
 Count Data
 
@@ -83,7 +82,7 @@ dim(DESeq.ds)
 ```
 
 
-Normalization
+**Normalization**
 
 ```{r}
 ## define a function to calculate the geometric mean
@@ -113,50 +112,37 @@ FOLD CHANGE EXCEL
 
 ```{r}
 
-
-# Definir el diseño experimental
 design(DESeq.ds) <- ~ condition
 
-# Realizar el análisis de expresión diferencial
 DESeq.ds <- DESeq(DESeq.ds)
 
-# Función para calcular FoldChange a partir de log2FoldChange
 calcFoldChange <- function(log2FoldChange) {
   ifelse(log2FoldChange >= 0, 2^log2FoldChange, -2^abs(log2FoldChange))
 }
 
-# Inicializar lista y dataframe para almacenar los resultados y resúmenes
 results_list <- list()
 results_summary <- data.frame(Comparison = character(), FoldChangeThreshold = numeric(), Overexpressed = integer(), Underexpressed = integer(), stringsAsFactors = FALSE)
 
-# Función para filtrar resultados, escribir a Excel, y mostrar número de genes sobreexpresados e infraexpresados
 filter_and_write <- function(results, comparison_name, fc_threshold, pval_threshold) {
   results$Geneid <- rownames(results)
   results$FoldChange <- calcFoldChange(results$log2FoldChange)
   
-  # Remover filas con NA en FoldChange o pvalue
   results <- na.omit(results)
   
-  # Filtrar por FoldChange y p-value
   filtered_results <- results[abs(results$FoldChange) > fc_threshold & results$pvalue < pval_threshold, ]
   
-  # Convertir a data frame y reorganizar columnas
   filtered_results_df <- as.data.frame(filtered_results)
   filtered_results_df <- filtered_results_df[, c("Geneid", "baseMean", "log2FoldChange", "FoldChange", "lfcSE", "stat", "pvalue", "padj")]
   
-  # Escribir archivo Excel con los resultados filtrados
   filtered_filename <- paste0("comparison_", comparison_name, "_filtered_fc_", fc_threshold, "_pval_", pval_threshold, ".xlsx")
   write.xlsx(filtered_results_df, file = filtered_filename, rownames = FALSE)
   
-  # Contar genes sobreexpresados e infraexpresados
   num_sobreexpresados <- sum(filtered_results_df$FoldChange > fc_threshold)
   num_infraexpresados <- sum(filtered_results_df$FoldChange < -fc_threshold)
   
-  # Guardar resumen en la lista de resultados
   key <- paste0(comparison_name, " FC > ", fc_threshold)
   results_list[[key]] <- list(num_overexpressed = num_sobreexpresados, num_underexpressed = num_infraexpresados)
   
-  # Guardar resumen en el dataframe
   results_summary <<- rbind(results_summary, data.frame(
     Comparison = comparison_name,
     FoldChangeThreshold = fc_threshold,
@@ -164,53 +150,44 @@ filter_and_write <- function(results, comparison_name, fc_threshold, pval_thresh
     Underexpressed = num_infraexpresados
   ))
   
-  # Mostrar número de genes sobreexpresados e infraexpresados por pantalla
   cat("\nNumber of Overexpressed genes (FoldChange > ", fc_threshold, " y p-value < ", pval_threshold, "): ", num_sobreexpresados, sep = "")
   cat("\nNumber of Underexpressed genes (FoldChange < ", -fc_threshold, " y p-value < ", pval_threshold, "): ", num_infraexpresados, sep = "")
 }
 
-# Función para escribir los resultados no filtrados con FoldChange a un archivo Excel
 write_unfiltered <- function(results, comparison_name) {
   results$Geneid <- rownames(results)
   results$FoldChange <- calcFoldChange(results$log2FoldChange)
   
-  # Convertir a data frame y reorganizar columnas
   unfiltered_results_df <- as.data.frame(results)
   unfiltered_results_df <- unfiltered_results_df[, c("Geneid", "baseMean", "log2FoldChange", "FoldChange", "lfcSE", "stat", "pvalue", "padj")]
   
-  # Escribir archivo Excel con los resultados no filtrados
   unfiltered_filename <- paste0("unfiltered_", comparison_name, ".xlsx")
   write.xlsx(unfiltered_results_df, file = unfiltered_filename, rownames = TRUE)
 }
 
-# Comparación Wt06 vs RpoS06
+# Comparison Wt06 vs RpoS06
 comparison1 <- results(DESeq.ds, contrast=c("condition", "Wt06", "RpoS06"))
 write_unfiltered(comparison1, "Wt06_vs_RpoS06")
 
-# Filtrados y escritura para Wt06 vs RpoS06
 filter_and_write(comparison1, "Wt06_vs_RpoS06", 1.5, 0.05)
 filter_and_write(comparison1, "Wt06_vs_RpoS06", 1.8, 0.05)
 filter_and_write(comparison1, "Wt06_vs_RpoS06", 2.0, 0.05)
 
-# Comparación Wt25 vs RpoS25
+# Comparison Wt25 vs RpoS25
 comparison2 <- results(DESeq.ds, contrast=c("condition", "Wt25", "RpoS25"))
 write_unfiltered(comparison2, "Wt25_vs_RpoS25")
 
-# Filtrados y escritura para Wt25 vs RpoS25
 filter_and_write(comparison2, "Wt25_vs_RpoS25", 1.5, 0.05)
 filter_and_write(comparison2, "Wt25_vs_RpoS25", 1.8, 0.05)
 filter_and_write(comparison2, "Wt25_vs_RpoS25", 2.0, 0.05)
 
-# Escribir la tabla de resumen a un archivo Excel
 write.xlsx(results_summary, file = "foldchange_summary.xlsx", rownames = FALSE)
 
-# Graficar los resultados de sobreexpresión
 ggplot(results_summary, aes(x = factor(FoldChangeThreshold), y = Overexpressed, fill = Comparison)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(title = "Number of Overexpressed genes", x = "Fold Change Threshold", y = "Number of genes") +
   theme_minimal()
 
-# Graficar los resultados de infraexpresión
 ggplot(results_summary, aes(x = factor(FoldChangeThreshold), y = Underexpressed, fill = Comparison)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(title = "Number of Underexpressed genes", x = "Fold Change Threshold", y = "Number of genes") +
@@ -222,22 +199,14 @@ VOLCANO PLOT (Fold Change)
 
 ```{r}
 library(ggplot2)
-
-# Función para procesar resultados y etiquetar genes como significantes o no significantes
 process_results <- function(results, log2fc_threshold, pval_threshold) {
   # Calcular -log10(p-value) para el gráfico
   results$negLog10Pval <- -log10(results$pvalue + 1e-300)
-  
-  # Etiquetar genes como significantes o no significantes
   results$Significant <- ifelse(abs(results$log2FoldChange) > log2fc_threshold & results$pvalue < pval_threshold, "Significant", "Not Significant")
-  
-  # Eliminar filas con NA en la columna 'Significant' o valores extremos
   results <- results[!is.na(results$Significant) & is.finite(results$negLog10Pval), ]
-  
   return(results)
 }
 
-# Función para generar Volcano Plot con datos etiquetados
 generate_volcano_plot <- function(results, comparison_name, xlim_values, ylim_values) {
   ggplot(results, aes(x = log2FoldChange, y = negLog10Pval, color = Significant)) +
     geom_point(alpha = 0.6) +
@@ -248,42 +217,34 @@ generate_volcano_plot <- function(results, comparison_name, xlim_values, ylim_va
     guides(color = guide_legend(title = "Significance"))
 }
 
-# Comparación Wt06 vs RpoS06
+# Comparison Wt06 vs RpoS06
 comparison1 <- results(DESeq.ds, contrast = c("condition", "Wt06", "RpoS06"))
 # Comparación Wt25 vs RpoS25
 comparison2 <- results(DESeq.ds, contrast = c("condition", "Wt25", "RpoS25"))
 
-# Definir umbrales de Log2 Fold Change y p-value
 log2fc_thresholds <- c(0.58, 0.83, 1.0)
 pval_threshold <- 0.05
 
-# Definir los límites de escala para los plots
 xlim_values <- c(-10, 10)
 
-# Función para ajustar límites de y-axis
 check_and_adjust_limits <- function(results) {
   if (nrow(results) == 0) {
     return(c(0, 20))  # Devolver valores predeterminados si no hay datos
   }
-  
-  # Evitar problemas con valores extremadamente grandes o pequeños
-  max_negLog10Pval <- max(results$negLog10Pval, na.rm = TRUE)
+    max_negLog10Pval <- max(results$negLog10Pval, na.rm = TRUE)
   ylim_values <- c(0, min(max_negLog10Pval, 50))  # Ajustar según el rango de tus datos
   
   return(ylim_values)
 }
 
-# Generar Volcano Plots para cada umbral de Log2 Fold Change
 for (log2fc_threshold in log2fc_thresholds) {
   # Procesar datos y etiquetar significantes
   processed_comparison1 <- process_results(comparison1, log2fc_threshold, pval_threshold)
   processed_comparison2 <- process_results(comparison2, log2fc_threshold, pval_threshold)
   
-  # Ajustar límites para los datos procesados
   ylim_values1 <- check_and_adjust_limits(processed_comparison1)
   ylim_values2 <- check_and_adjust_limits(processed_comparison2)
   
-  # Generar y mostrar Volcano Plots
   volcano_plot1 <- generate_volcano_plot(processed_comparison1, 
                                          paste("Wt06_vs RpoS06 (Log2 Fold Change >", log2fc_threshold, ")"),
                                          xlim_values, ylim_values1)
@@ -291,8 +252,6 @@ for (log2fc_threshold in log2fc_thresholds) {
   volcano_plot2 <- generate_volcano_plot(processed_comparison2, 
                                          paste("Wt25_vs RpoS25 (Log2 Fold Change >", log2fc_threshold, ")"),
                                          xlim_values, ylim_values2)
-  
-  # Imprimir los plots
   print(volcano_plot1)
   print(volcano_plot2)
 }
