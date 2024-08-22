@@ -24,7 +24,6 @@ openxlsx: Handles reading and writing Excel files without Java.
 [1] ‘1.44.0’
 > packageVersion("gridExtra")
 [1] ‘2.3’
-
 > packageVersion("ggfortify")
 [1] ‘0.4.17’
 > packageVersion("openxlsx")
