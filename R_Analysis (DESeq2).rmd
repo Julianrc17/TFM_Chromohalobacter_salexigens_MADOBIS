@@ -106,8 +106,34 @@ DESeq.ds <- estimateSizeFactors(DESeq.ds) # calculate SFs, add them to object
 plot( sizeFactors(DESeq.ds), colSums(counts(DESeq.ds)), # assess them
 ylab = "library sizes", xlab = "size factors", cex = .6 )
 ````
+Principal Component Analysis (PCA)
 
-FOLD CHANGE EXCEL
+```{r}
+# Filtrar las muestras para el PCA de todas las muestras
+all_samples <- c("RpoS06A", "RpoS06B", "RpoS06C", "RpoS25A", "RpoS25B", "RpoS25C",
+                 "Wt06A", "Wt06B", "Wt06C", "Wt25A", "Wt25B", "Wt25C", "Wt25I", "Wt06I")
+normalized_counts_all <- counts(DESeq.ds, normalized=TRUE)[, all_samples]
+
+variance_filter_all <- apply(normalized_counts_all, 1, var) > 0
+filtered_counts_all <- normalized_counts_all[variance_filter_all, ]
+
+pca_all <- prcomp(t(filtered_counts_all), scale. = TRUE)
+
+pca_data_all <- as.data.frame(pca_all$x)
+pca_data_all$Sample <- row.names(pca_data_all)
+# Crear la columna de condiciones asegurándonos de que no haya NA
+pca_data_all$Condition <- factor(gsub("([A-Za-z]+)([0-9]+)([A-Za-z]*)", "\\1\\2", pca_data_all$Sample), levels = c("RpoS06", "RpoS25", "Wt06", "Wt25"))
+
+ggplot(pca_data_all, aes(x = PC1, y = PC2, color = Condition, label = Sample)) +
+  geom_point(size = 3) +
+  geom_text(vjust = -0.5) +
+  theme_minimal() +
+  ggtitle("PCA of All Samples") +
+  xlab(paste("PC1 (", round(summary(pca_all)$importance[2,1] * 100, 1), "%)", sep = "")) +
+  ylab(paste("PC2 (", round(summary(pca_all)$importance[2,2] * 100, 1), "%)", sep = ""))
+```
+
+Fold Change 
 
 ```{r}
 
