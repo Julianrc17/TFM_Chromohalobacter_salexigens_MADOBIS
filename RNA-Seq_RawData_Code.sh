@@ -103,7 +103,7 @@ samtools stats aligned_reads_RpoS25C_sorted.bam > alignment_stats_RpoS25C_full.t
 
 # SOLID SAMPLES
 
-# These samples were already .bam. There is no need to pre-process them.
+# These samples were already .bam. There is no need to pre-process them. Only statistical data is taken.
 
 # Wt06A
 
