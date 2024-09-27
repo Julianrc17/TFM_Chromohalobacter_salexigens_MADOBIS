@@ -44,3 +44,4 @@ DESeq2 package from BioConductor is used to compare conditions, computing log2 F
 **Visualization:**
 Bar plots show the number of over-expressed and under-expressed genes at different FoldChange thresholds. Volcano plots visualize significant gene expression changes, highlighting relevant genes for further study.
 
+**The rest of the analysis will be carried out using Excel to process the data**
