@@ -5,7 +5,7 @@
 This repository contains the code and data used for my Master's Thesis, which focuses on a RNA-Seq of the halophilic bacterium Chromohalobacter salexigens. The primary goal of the study is to investigate the molecular mechanisms of salt tolerance in this organism. 
 The project involves processing biological data, running sequence alignments, and performing statistical analyses to understand the underlying molecular pathways. Below you'll find detailed instructions on how to reproduce the analyses. 
 
-I used the Linux environment on Windows through WSL (Windows Subsystem for Linux) to conduct RNA-Seq analysis. Starting with the raw data in .fastq format, I processed it step by step, ultimately generating count data in an Excel file. 
+I used the Linux environment on Windows through WSL (Windows Subsystem for Linux) to conduct RNA-Seq analysis. Starting with the raw data in .fastq format, I processed it step by step, ultimately generating count data in an Excel file where the rest of the analysis was carried out. 
 
 #### Analysis Data
 
@@ -32,15 +32,15 @@ This will be the first file encountered in the repository: a txt script that out
 
 On the other hand, we have the analysis done in R. Which deals with everything from the processing and normalization of our count data obtained with FeatureCounts to the generation of FoldChange tables and relevance graphs in our study.
 
-Data Loading & Preparation:
+**Data Loading & Preparation:**
 Raw count data from FeatureCounts is loaded and preprocessed, including renaming columns and creating a DESeqDataSet object for analysis.
 
-Data Normalization:
+**Data Normalization:**
 Geometric means are used to normalize the counts, and size factors are estimated to account for sequencing depth differences across samples.
 
-Differential Expression Analysis:
-DESeq2 is used to compare conditions, computing log2 Fold Changes. A custom function transforms log2 Fold Changes to regular Fold Changes, and results are filtered by significance (p-value and FoldChange thresholds). Filtered results are written to Excel files for each comparison.
+**Differential Expression Analysis:**
+DESeq2 package from BioConductor is used to compare conditions, computing log2 Fold Changes. A custom function transforms log2 Fold Changes to regular Fold Changes, and results are filtered by significance (p-value and FoldChange thresholds). Filtered results are written to Excel files for each comparison.
 
-Visualization:
-Bar plots show the number of over- and under-expressed genes at different FoldChange thresholds. Volcano plots visualize significant gene expression changes, highlighting relevant genes for further study.
+**Visualization:**
+Bar plots show the number of over-expressed and under-expressed genes at different FoldChange thresholds. Volcano plots visualize significant gene expression changes, highlighting relevant genes for further study.
 
