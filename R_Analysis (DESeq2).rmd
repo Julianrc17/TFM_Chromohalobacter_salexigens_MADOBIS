@@ -23,7 +23,7 @@ FeatureCounts
 
 ```{r}
 readcounts <- read.table("counts_totales.txt", header=TRUE, sep="\t", fill=TRUE, comment.char="#")
-orig_names <- names(readcounts) # keep a back-up copy of the original names
+orig_names <- names(readcounts) 
 colnames(readcounts)
 new_column_names <- c("Geneid", "Chr", "Start", "End", "Strand", "Length", "Wt06A", "Wt06B", "Wt06C", "Wt25A", "Wt25B", "Wt25C", 
                       "Wt25I", "Wt06I", "RpoS06A", "RpoS06B", "RpoS06C", "RpoS25A", "RpoS25B", "RpoS25C")
@@ -67,7 +67,6 @@ colSums(counts(DESeq.ds))
 ```{r}
 col_sums <- colSums(counts(DESeq.ds))
 barplot(col_sums, las=2, cex.names=0.8, main="Sumas de columnas de DESeqDataSet", xlab="Muestras", ylab="Counts")
-
 ```
 
 ```{r}
@@ -84,20 +83,11 @@ dim(DESeq.ds)
 **Normalization**
 
 ```{r}
-## define a function to calculate the geometric mean
 gm_mean <- function(x, na.rm=TRUE){ exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x)) }
-## calculate the geometric mean for each gene using that function
-## note the use of apply(), which we instruct to apply the gm_mean()
-## function per row (this is what the second parameter, 1, indicates)
 pseudo_refs <- counts(DESeq.ds) %>% apply(., 1, gm_mean)
-## divide each value by its corresponding pseudo-reference value
 pseudo_ref_ratios <- counts(DESeq.ds) %>% apply(., 2, function(cts){ cts/pseudo_refs})
-## if you want to see what that means at the single-gene level,
-## compare the result of this:
 counts(DESeq.ds)[1,]/pseudo_refs[1]
-## with
 pseudo_ref_ratios[1,]
-## determine the median value per sample to get the size factor
 apply(pseudo_ref_ratios , 2, median)
 ```
 
@@ -109,11 +99,9 @@ ylab = "library sizes", xlab = "size factors", cex = .6 )
 Principal Component Analysis (PCA)
 
 ```{r}
-# Filtrar las muestras para el PCA de todas las muestras
 all_samples <- c("RpoS06A", "RpoS06B", "RpoS06C", "RpoS25A", "RpoS25B", "RpoS25C",
                  "Wt06A", "Wt06B", "Wt06C", "Wt25A", "Wt25B", "Wt25C", "Wt25I", "Wt06I")
 normalized_counts_all <- counts(DESeq.ds, normalized=TRUE)[, all_samples]
-
 variance_filter_all <- apply(normalized_counts_all, 1, var) > 0
 filtered_counts_all <- normalized_counts_all[variance_filter_all, ]
 
@@ -121,7 +109,6 @@ pca_all <- prcomp(t(filtered_counts_all), scale. = TRUE)
 
 pca_data_all <- as.data.frame(pca_all$x)
 pca_data_all$Sample <- row.names(pca_data_all)
-# Crear la columna de condiciones asegurándonos de que no haya NA
 pca_data_all$Condition <- factor(gsub("([A-Za-z]+)([0-9]+)([A-Za-z]*)", "\\1\\2", pca_data_all$Sample), levels = c("RpoS06", "RpoS25", "Wt06", "Wt25"))
 
 ggplot(pca_data_all, aes(x = PC1, y = PC2, color = Condition, label = Sample)) +
@@ -225,7 +212,6 @@ VOLCANO PLOT (Fold Change)
 ```{r}
 library(ggplot2)
 process_results <- function(results, log2fc_threshold, pval_threshold) {
-  # Calcular -log10(p-value) para el gráfico
   results$negLog10Pval <- -log10(results$pvalue + 1e-300)
   results$Significant <- ifelse(abs(results$log2FoldChange) > log2fc_threshold & results$pvalue < pval_threshold, "Significant", "Not Significant")
   results <- results[!is.na(results$Significant) & is.finite(results$negLog10Pval), ]
@@ -263,7 +249,6 @@ check_and_adjust_limits <- function(results) {
 }
 
 for (log2fc_threshold in log2fc_thresholds) {
-  # Procesar datos y etiquetar significantes
   processed_comparison1 <- process_results(comparison1, log2fc_threshold, pval_threshold)
   processed_comparison2 <- process_results(comparison2, log2fc_threshold, pval_threshold)
   
@@ -273,12 +258,10 @@ for (log2fc_threshold in log2fc_thresholds) {
   volcano_plot1 <- generate_volcano_plot(processed_comparison1, 
                                          paste("Wt06_vs RpoS06 (Log2 Fold Change >", log2fc_threshold, ")"),
                                          xlim_values, ylim_values1)
-  
   volcano_plot2 <- generate_volcano_plot(processed_comparison2, 
                                          paste("Wt25_vs RpoS25 (Log2 Fold Change >", log2fc_threshold, ")"),
                                          xlim_values, ylim_values2)
   print(volcano_plot1)
   print(volcano_plot2)
 }
-
 ```
