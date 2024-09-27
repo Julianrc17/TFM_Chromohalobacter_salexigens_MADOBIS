@@ -1,7 +1,7 @@
 Requirements for the Analysis
 
 
-The RNA-Seq analysis requires the following tools to be installed in your WSL (Windows Subsystem for Linux) Version 0.2.1 environment:
+The RNA-Seq analysis requires the following tools to be installed in WSL (Windows Subsystem for Linux) Version 0.2.1 environment:
 
 BWA (Burrows-Wheeler Alignment Tool): For aligning sequencing reads to the reference genome. Version: 0.7.17-r1188. 
 FastQC: For quality control of sequencing data. Version 0.12.0
@@ -29,3 +29,4 @@ openxlsx: Handles reading and writing Excel files without Java.
 > packageVersion("openxlsx")
 [1] ‘4.2.6.1’
 
+The rest of the analysis will be carried out using Excel to process the data.
